@@ -1,0 +1,14 @@
+{
+  "elf": "merge.axf",
+  "id": "0x01000072",
+  "name": "Merge",
+  "category": "Routing",
+  "menu": 7,
+  "params": [
+    {"name": "Level A", "min": -61, "max": 12, "step": 1, "default": 0, "flags": [255, 0, 116]},
+    {"name": "Level B", "min": -61, "max": 12, "step": 1, "default": 0, "flags": [255, 0, 116]},
+    {"name": "Pan A", "min": -50, "max": 50, "step": 1, "default": 0, "flags": [255, 0, 117]},
+    {"name": "Pan B", "min": -50, "max": 50, "step": 1, "default": 0, "flags": [255, 0, 117]},
+    {"name": "Phase B", "min": 0, "max": 1, "step": 1, "default": 0, "flags": [255, 0, 166]}
+  ]
+}

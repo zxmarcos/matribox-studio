@@ -1,0 +1,12 @@
+{
+  "elf": "gain.axf",
+  "id": "0x01000080",
+  "name": "Gain Boost",
+  "category": "Boost",
+  "menu": 0,
+  "params": [
+    {"name": "Gain", "min": 0, "max": 24, "step": 1, "default": 6, "flags": [255, 0, 116]},
+    {"name": "Tone", "min": 0, "max": 100, "step": 1, "default": 70, "flags": [255, 0, 21]},
+    {"name": "Level", "min": -61, "max": 6, "step": 1, "default": 0, "flags": [255, 0, 116]}
+  ]
+}

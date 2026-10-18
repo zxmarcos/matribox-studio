@@ -1,0 +1,10 @@
+{
+  "elf": "split.axf",
+  "id": "0x01000070",
+  "name": "Split",
+  "category": "Routing",
+  "menu": 7,
+  "params": [
+    {"name": "Mode", "min": 0, "max": 2, "step": 1, "default": 2, "flags": [255, 0, 148]}
+  ]
+}

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "matribox-studio"
+version = "0.1.0"
+description = "SDK and tools for the Sonicake Matribox II Pro (QME-200) firmware: effect modules, app patches, firmware composition and USB tools"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+emu = ["unicorn>=2.0", "capstone>=5.0"]     # emulators (effemu, uiemu) and their tests
+test = ["unicorn>=2.0", "capstone>=5.0", "numpy"]
+
+[project.scripts]
+matribox = "matribox.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["matribox*"]
+
+[tool.setuptools.package-data]
+matribox = ["data/*", "app/patches/*", "studio/fonts/*"]

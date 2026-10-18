@@ -1,0 +1,38 @@
+name: studio-windows
+
+# Windows build of Matribox Studio: a zip with MatriboxStudio.exe, the example catalogs, Zig (needed to
+# compile the app patches) and unicorn (the ports run the converted effects in the emulator). Runs on demand and for version tags; a tag also publishes a GitHub release.
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: mlugg/setup-zig@v1
+        with:
+          version: 0.14.0
+      - run: pip install -e . pyinstaller capstone unicorn
+      - run: python examples/build_all.py
+      - name: Build the executable
+        shell: pwsh
+        run: |
+          $zig = Split-Path (Get-Command zig).Source
+          python packaging/build_exe.py --zig $zig --zip MatriboxStudio-windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MatriboxStudio-windows
+          path: MatriboxStudio-windows.zip
+      - if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: MatriboxStudio-windows.zip

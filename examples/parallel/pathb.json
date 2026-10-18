@@ -1,0 +1,10 @@
+{
+  "elf": "pathb.axf",
+  "id": "0x01000071",
+  "name": "Path B",
+  "category": "Routing",
+  "menu": 7,
+  "params": [
+    {"name": "Input", "min": -61, "max": 12, "step": 1, "default": 0, "flags": [255, 0, 116]}
+  ]
+}

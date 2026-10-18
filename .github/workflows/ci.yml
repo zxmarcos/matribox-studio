@@ -1,0 +1,21 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  examples:
+    # everything that works without the vendor's firmware: build the example modules and run some in the emulator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: mlugg/setup-zig@v1
+        with:
+          version: 0.14.0
+      - run: pip install -e . unicorn capstone numpy
+      - run: python -m compileall -q matribox examples nam tests
+      - run: python examples/build_all.py
+      - run: python -m matribox emulate examples/gain/gain.axf 6 70 0
+      - run: python -m matribox emulate examples/modecho/modecho.axf 50 300 40 0 1

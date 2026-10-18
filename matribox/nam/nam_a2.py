@@ -1,0 +1,119 @@
+"""Extract the A2-Lite (3-channel) WaveNet from a .nam file and pack it for nam/a2lite.c.
+
+    nam_a2.py model.nam out_prefix [--name "Display Name"]
+
+Writes out_prefix.c (const float weights[] + metadata) and out_prefix.json.
+Accepts a plain WaveNet with the A2 shape or a SlimmableContainer holding one (the
+3-channel submodel is picked). The shape check mirrors is_a2_shape() in
+NeuralAmpModelerCore/NAM/wavenet/a2_fast.cpp.
+
+Packed order (A2_NUM_WEIGHTS floats), all per-tap matrices column-major (w[j*3+i] = in j -> out i):
+  rechannel[3]
+  per layer: conv[K][9], conv_b[3], mixin[3], l1x1[9], l1x1_b[3]
+  head[16][3], head_b, head_scale
+"""
+import json, sys, os
+
+C = 3
+KERNELS = [6] * 14 + [15, 15] + [6] * 7
+DILATIONS = [1, 3, 7, 17, 41, 101, 239] * 2 + [1, 13] + [1, 3, 7, 17, 41, 101, 239]
+HEAD_K = 16
+NUM_WEIGHTS = C + sum(9 * k + 3 + 3 + 9 + 3 for k in KERNELS) + HEAD_K * C + 2
+
+
+def is_a2_lite(cfg):
+    if not isinstance(cfg, dict) or len(cfg.get('layers', [])) != 1 or cfg.get('head') is not None:
+        return False
+    if cfg.get('condition_dsp') is not None or cfg.get('in_channels', 1) != 1:
+        return False
+    la = cfg['layers'][0]
+    ok = (la.get('input_size') == 1 and la.get('condition_size') == 1 and la.get('channels') == C
+          and la.get('bottleneck') == C and la.get('kernel_sizes') == KERNELS and la.get('dilations') == DILATIONS)
+    ok = ok and all(isinstance(a, dict) and a.get('type') == 'LeakyReLU' and abs(a.get('negative_slope', 0) - 0.01) < 1e-7
+                    for a in la.get('activation', []))
+    ok = ok and len(la.get('activation', [])) == len(KERNELS)
+    ok = ok and all(g == 'none' for g in (la.get('gating_mode') or ['none']))
+    ok = ok and not la.get('gated', False)
+    ok = ok and all(s is None for s in (la.get('secondary_activation') or [None]))
+    ok = ok and not (la.get('head1x1') or {}).get('active', False)
+    l1 = la.get('layer1x1') or {}
+    ok = ok and l1.get('active', False) and l1.get('groups', 1) == 1
+    h = la.get('head') or {}
+    ok = ok and h.get('out_channels') == 1 and h.get('kernel_size') == HEAD_K and h.get('bias', False)
+    ok = ok and h.get('head_dilation', 1) == 1
+    for k in ('conv_pre_film', 'conv_post_film', 'input_mixin_pre_film', 'input_mixin_post_film',
+              'activation_pre_film', 'activation_post_film', 'layer1x1_post_film', 'head1x1_post_film'):
+        f = la.get(k)
+        if isinstance(f, dict) and f.get('active', False) or f is True:
+            ok = False
+    ok = ok and la.get('groups_input', 1) == 1 and la.get('groups_input_mixin', 1) == 1
+    ok = ok and la.get('slimmable') is None
+    return bool(ok)
+
+
+def find_lite(m):
+    """returns (wavenet model dict) for the A2-Lite network inside a .nam document"""
+    if m.get('architecture') == 'WaveNet' and is_a2_lite(m.get('config')):
+        return m
+    if m.get('architecture') == 'SlimmableContainer':
+        for sub in m['config']['submodels']:
+            r = find_lite(sub['model'])
+            if r:
+                return r
+    return None
+
+
+def pack(weights):
+    if len(weights) != NUM_WEIGHTS:
+        raise ValueError('expected %d weights, got %d' % (NUM_WEIGHTS, len(weights)))
+    it = iter(weights)
+    out = [next(it) for _ in range(C)]                       # rechannel (1 -> C)
+    for K in KERNELS:
+        conv = [0.0] * (K * 9)
+        for i in range(C):                                    # out
+            for j in range(C):                                # in
+                for k in range(K):
+                    conv[k * 9 + j * C + i] = next(it)
+        out += conv
+        out += [next(it) for _ in range(C)]                   # conv bias
+        out += [next(it) for _ in range(C)]                   # input mixin
+        l1 = [0.0] * 9
+        for i in range(C):
+            for j in range(C):
+                l1[j * C + i] = next(it)
+        out += l1
+        out += [next(it) for _ in range(C)]                   # layer1x1 bias
+    head = [0.0] * (HEAD_K * C)
+    for j in range(C):
+        for k in range(HEAD_K):
+            head[k * C + j] = next(it)
+    out += head
+    out.append(next(it))                                      # head bias
+    out.append(next(it))                                      # head_scale (trailing weight)
+    return out
+
+
+def main():
+    src, prefix = sys.argv[1], sys.argv[2]
+    name = sys.argv[sys.argv.index('--name') + 1] if '--name' in sys.argv else os.path.splitext(os.path.basename(src))[0]
+    m = json.load(open(src))
+    lite = find_lite(m)
+    if not lite:
+        sys.exit('%s: no A2-Lite (3-channel A2 WaveNet) network found' % src)
+    w = pack(lite['weights'])
+    meta = lite.get('metadata') or {}
+    info = {'name': name, 'source': os.path.basename(src), 'sample_rate': lite.get('sample_rate', 48000),
+            'loudness': meta.get('loudness'), 'gain': meta.get('gain'), 'num_weights': len(w)}
+    with open(prefix + '.c', 'w') as f:
+        f.write('/* generated by matribox/nam/nam_a2.py from %s */\n#include "a2lite.h"\n\n' % info['source'])
+        f.write('const float a2_model_weights[A2_NUM_WEIGHTS] = {\n')
+        for i in range(0, len(w), 6):
+            f.write('    ' + ' '.join('%.9e,' % v for v in w[i:i + 6]) + '\n')
+        f.write('};\n')
+        f.write('const float a2_model_loudness = %.9ef;\n' % (info['loudness'] if info['loudness'] is not None else -18.0))
+    json.dump(info, open(prefix + '.json', 'w'), indent=1)
+    print('%s: A2-Lite, %d weights, fs %s, loudness %s' % (src, len(w), info['sample_rate'], info['loudness']))
+
+
+if __name__ == '__main__':
+    main()

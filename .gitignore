@@ -1,0 +1,15 @@
+# the stock firmware and everything built from it stay on the user's machine
+/firmware/
+/build/
+/workspace.json
+
+# build products of the examples (python examples/build_all.py)
+*.axf
+*.o
+examples/**/build/
+examples/**/gen/
+
+__pycache__/
+*.egg-info/
+/dist/
+examples/nam_a2/models/*.nam

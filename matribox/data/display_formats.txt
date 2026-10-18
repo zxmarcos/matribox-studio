@@ -1,0 +1,196 @@
+﻿0x00  list[0..2]  Off | On | Error
+0x01  list[0..3]  Clean | Fat | Tweed | Error
+0x02  list[0..2]  Normal | Bold | Error
+0x03  list[0..2]  Mid Gain | Harmony | Error
+0x04  list[0..2]  Cool | Hot | Error
+0x05  list[0..2]  V1 | V2 | Error
+0x06  list[0..3]  I | II | III | Error
+0x07  list[0..2]  Old | New | Error
+0x08  list[0..2]  L | H | Error
+0x09  list[0..3]  L | M | T | Error
+0x0a  list[0..2]  Rock | Jazz | Error
+0x0b  list[0..2]  Edge | Crunch | Error
+0x0c  list[0..2]  Normal | Thick | Error
+0x0d  list[0..2]  Rough | Smooth | Error
+0x0e  list[0..2]  Open | Focused | Error
+0x0f  list[0..3]  Mark IIC+ | Mark IV | Extreme | Error
+0x10  list[0..5]  220Hz | 450Hz | 800Hz | 1.6kHz | 3kHz | Error
+0x11  list[0..8]  6V6 | EL84 | EL34 | 6L6 | KT66 | KT77 | KT88 | 6550 | Error
+0x12  list[0..2]  Triode | Pentode | Error
+0x13  list[0..4]  2 Ohms | 4 Ohms | 8 Ohms | 16 Ohms | Error
+0x14  format      %.0f
+0x15  format      %.0f
+0x16  format      (falls through to default)
+0x17  format      Off  /  %.0fHz
+0x18  list[0..10]  Dyn 57 | Dyn 421 | Rib 121 | Rib 160 | Con 70 | Con 414 | Mix 1 | Mix 2 | Mix 3 | Mix 4 | Error
+0x19  format      %.0fms
+0x1a  format      %.0f
+0x1b  list[0..2]  Delay | Chorus | Error
+0x1c  format      %.0f
+0x1d  format      %.0f
+0x1e  format      %.1f%%
+0x1f  list[0..3]  Past | Present | Future | Error
+0x20  format      %.0fHz  /  %.0fkHz
+0x21  format      %.1fkHz
+0x22  format      %.2fHz
+0x23  format      %.0fHz
+0x24  list[0..4]  None | Left | Right | Both | Error
+0x25  list[0..4]  Off | 100Hz | 200Hz | 400Hz | Error
+0x26  list[0..4]  33kHz | 8kHz | 4kHz | 2kHz | Error
+0x27  format      %.0fdB
+0x28  format      %.0fms
+0x29  list[0..2]  Crunch | Lead | Error
+0x2a  list[0..2]  LP | HP | Error
+0x2b  format      Off  /  %.0f
+0x2c  list[0..3]  CompCut | FM | Vintage | Error
+0x2d  list[0..2]  Standard | MOSFET | Error
+0x2e  list[0..2]  9V | 18V | Error
+0x2f  list[0..6]  1 | 2 | 3 | 4 | 5 | 6 | Error
+0x30  list[0..4]  Off | Clean | OD | Dist | Error
+0x31  list[0..3]  Natural | Modern | Vintage | Error
+0x32  list[0..2]  Vintage | Modern | Error
+0x33  list[0..2]  Lo | Hi | Error
+0x34  list[0..3]  Cut | Boost | Flat | Error
+0x35  list[0..3]  Raw | Thin | Fat | Error
+0x36  list[0..2]  I | II | Error
+0x37  list[0..2]  Comp | Limit | Error
+0x38  list[0..5]  4:1 | 8:1 | 16:1 | 20:1 | All In | Error
+0x39  format      %.1fdB
+0x3a  format      %.1fdB
+0x3b  format      Limit  /  %.1f:1
+0x3c  format      Limit  /  %.1f:1
+0x3d  format      %.1fdB
+0x3e  format      %.1fdB
+0x3f  format      %.1fms
+0x40  format      %.1fms
+0x41  format      %.0fms
+0x42  format      %.0fms
+0x43  list[0..8]  Soft | 1 | 2 | 3 | 4 | 5 | 6 | Hard | Error
+0x44  list[0..4]  50Hz | 80Hz | 160Hz | 300Hz | Error
+0x45  list[0..4]  Standard | Jumbo | Enhanced | Piezo | Error
+0x46  format      %.0fdB
+0x47  format      %.2f
+0x48  format      %.0fHz
+0x49  list[0..2]  Guitar | Bass | Error
+0x4a  list[0..4]  LP | BP | HP | Mix | Error
+0x4b  list[0..2]  Up | Down | Error
+0x4c  list[0..6]  Sine | Triangle | Square | Saw | Ramp | Random | Error
+0x4d  list[0..5]  0Â° | 45Â° | 90Â° | 135Â° | 180Â° | Error
+0x4e  format      %.2fHz
+0x4f  list[0..6]  A | I | E | O | U | Random | Error
+0x50  format      %.0f
+0x51  list[0..2]  Low | High | Error
+0x52  list[0..2]  Slow | Fast | Error
+0x53  format      %.0f
+0x54  format      %.0f
+0x55  format      %.0f
+0x56  format      %.0f
+0x57  list[0..2]  Mono | Poly | Error
+0x58  format      %.0fcents
+0x59  format      %.0f
+0x5a  format      uVar2 = VectorFloatToUnsigned(param_1,3);     if (0xc < uVar2) {       uVar2 = 0
+0x5b  list[0..2]  Major | Minor | Error
+0x5c  format      uVar2 = VectorFloatToUnsigned(param_1,3);     if (0xe < uVar2) {       uVar2 = 0
+0x5d  format      %.0f
+0x5e  format      %.0f
+0x5f  list[0..2]  Line | Exp | Error
+0x60  list[0..3]  1930s Carbon | 1930s Dynamic | 1940s Dynamic | Error
+0x61  list[0..5]  50Hz | 100Hz | 200Hz | 300Hz | 400Hz | Error
+0x62  list[0..2]  Shelf | Bell | Error
+0x63  list[0..5]  400Hz | 800Hz | 1.5kHz | 3kHz | 5kHz | Error
+0x64  list[0..5]  5kHz | 7kHz | 10kHz | 12.5kHz | 15kHz | Error
+0x65  format      %.0fdB
+0x66  list[0..4]  20Hz | 30Hz | 60Hz | 100Hz | Error
+0x67  list[0..7]  3kHz | 4kHz | 5kHz | 8kHz | 10kHz | 12kHz | 16kHz | Error
+0x68  list[0..3]  5kHz | 10kHz | 20kHz | Error
+0x69  format      %.0fHz
+0x6a  format      %.0fHz  /  %.1fkHz
+0x6b  format      %.0fkHz
+0x6c  format      %.0fkHz
+0x6d  format      uVar2 = VectorFloatToUnsigned(param_1,3);     if (0xb < uVar2) {       uVar2 = 0
+0x6e  format      FUN_00000b6e(param_2,*DAT_0003b608,param_3);     return;
+0x6f  list[0..2]  Mono | Stereo | Error
+0x70  list[0..2]  Chorus | Vibrato | Error
+0x71  list[0..4]  Sine | Triangle | Square | Sawtooth | Error
+0x72  list[0..2]  F1 | F2 | Error
+0x73  format      %.0fms
+0x74  format      Mute  /  %.0fdB
+0x75  format      Center  /  R%.0f  /  L%.0f
+0x76  list[0..2]  Normal | Reverse | Error
+0x77  list[0..3]  Neutral | Aggressive | Classic | Error
+0x78  list[0..2]  Shallow | Deep | Error
+0x79  list[0..4]  1 | 2 | 4 | 6 | Error
+0x7a  format      %.0f
+0x7b  list[0..2]  Warm | Sharp | Error
+0x7c  list[0..2]  500Hz | 1kHz | Error
+0x7d  list[0..2]  1.5kHz | 3kHz | Error
+0x7e  format      %.0fdB
+0x7f  list[0..4]  1 | 2 | 3 | 4 | Error
+0x80  list[0..3]  LP | BP | HP | Error
+0x81  list[0..3]  Normal | Scoop | Edge | Error
+0x82  format      %.0fms
+0x83  format      %.0f
+0x84  format      %.0f
+0x85  list[0..6]  -2 Oct | -1 Oct | +1 Oct | +2 Oct | +/-1Oct | +/-2Oct | Error
+0x86  list[0..3]  -6 | 0 | +6 | Error
+0x87  list[0..4]  -6 | 0 | +3 | +6 | Error
+0x88  format      %.0fms
+0x89  format      %.0fHz  /  %.1fkHz
+0x8a  format      %.1f
+0x8b  list[0..7]  6L6 | EL34 | EL84 | 6V6 | KT66 | KT88 | 6550 | Error
+0x8c  format      +%.0fdB  /  %.0fdB
+0x8d  list[0..3]  Lo Cut | Lo Shelf | Peak | Error
+0x8e  format      %.0fHz
+0x8f  list[0..2]  Lo Shelf | Peak | Error
+0x90  format      %.0fHz
+0x91  list[0..2]  Hi Shelf | Peak | Error
+0x92  list[0..3]  Hi Cut | Hi Shelf | Peak | Error
+0x93  format      %.0fHz
+0x94  list[0..3]  Mono (L) | Mono (R) | Stereo | Error
+0x95  list[0..5]  1 | 2 | 3 | 4 | 5 | Error
+0x96  format      %.0fms
+0x97  list[0..3]  Line | Exp | Log | Error
+0x98  format      Off  /  %.2fHz
+0x99  list[0..5]  Dyn 421 | Rib 160 | Con 87 | Mix | NULL | Error
+0x9a  list[0..10]  Input L | Input R | FX RTN L | FX RTN R | Prev FX | USB Out 3 | USB Out 4 | USB Out 5 | USB Out 6 | USB Out 7 | USB Out 8
+0x9b  list[0..9]  Major | Minor | H. Minor | Dorian | Phrygian | Lydian | Mixolydian | Locrian | NULL | Error
+0x9c  format      %.2fHz
+0x9d  list[0..7]  Center | Near Center | Cap Edge | Cone | Near Edge | Edge | NULL | Error
+0x9e  format      Off  /  %.0fHz
+0x9f  format      Off  /  %.0fHz
+0xa0  format      %.0f
+0xa1  list[0..5]  MA150 | Red LED | Blue LED | 1N916 | 1N4148 | Error
+0xa2  list[0..2]  Pre | Post | Error
+0xa3  format      %.0f%%
+0xa4  format      %.0fÂ°
+0xa5  format      %.0fÂ°
+0xa6  list[0..2]  Normal | Invert | Error
+0xa7  format      %.1fdB
+0xa8  list[0..5]  5751 | 12AT7 | 12AU7 | 12AX7A | 12AX7B | Error
+0xa9  list[0..9]  5881 | 6550 | 6V6 | 6L6GC | EL34 | EL84 | KT66 | KT77 | KT88 | Error
+0xaa  format      %.2fms
+0xab  format      %.2fms
+0xac  format      %.2fdB
+0xad  format      uVar2 = VectorFloatToUnsigned(param_1,3);     if (0x1f < uVar2) {       uVar2 = 
+0xae  list[0..4]  Glitch | 1/4 | 1/8D | 1/8 | Error
+0xaf  list[0..3]  Short | Medium | Long | Error
+0xb0  list[0..5]  A | B | C | D | Transparent | Error
+0xb1  list[0..7]  Sine | Triangle | Square | Saw | Ramp | Rectangle | Pulse | Error
+0xb2  format      uVar2 = VectorFloatToUnsigned(param_1,3);     if (0x13 < uVar2) {       uVar2 = 
+0xb3  list[0..2]  AM | FM | Error
+0xb4  list[0..7]  Sine | Triangle | Square | Saw | Ramp | Random | Envelope | Error
+0xb5  format      %.2fdB
+0xb6  format      %.0f
+0xb7  format      %.2fs
+0xb8  format      %.1fdB
+0xb9  format      uVar2 = VectorFloatToUnsigned(param_1,3);     if (0xd < uVar2) {       uVar2 = 0
+0xba  list[0..7]  Major | Minor | Dorian | Phrygian | Lydian | Mixolydian | Locrian | Error
+0xbb  format      uVar2 = VectorFloatToUnsigned(param_1,3);     if (0xb < uVar2) {       uVar2 = 0
+0xbc  list[0..2]  N | M | B
+0xbd  format      %.0f
+0xbe  list[0..6]  Sub | 1st | 2nd | 3rd | 5th | NAT Low | NAT High
+0xbf  format      %.0fms  /  %.1fs
+0xc0  list[0..1]  Low | High
+0xc1  list[0..2]  Major | Minor | Chromatic
+0xc2  list[0..5]  -2 Oct | -1 Oct | Off | +1 Oct | +2 Oct | +3 Oct
+0xc3  list[0..10]  SQUARE | SAW | ERHU | SUONA | FLUTE | HULUSI | XUN | MOSQUITO | HORN | CLARINET | CELLO

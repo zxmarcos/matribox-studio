@@ -1,0 +1,42 @@
+{
+  "elf": "multimode.axf",
+  "id": "0x04000070",
+  "name": "Multi Mode",
+  "category": "Special",
+  "menu": 8,
+  "params": [
+    {
+      "name": "Mode",
+      "options": ["Tremolo", "Vibrato", "Ring Mod", "Bitcrush", "Octave Fuzz"],
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 0,
+      "flags": [255, 0, 21]
+    },
+    {
+      "name": "Rate",
+      "min": 0.1,
+      "max": 10,
+      "step": 0.1,
+      "default": 4,
+      "flags": [255, 0, 34]
+    },
+    {
+      "name": "Depth",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60,
+      "flags": [255, 0, 21]
+    },
+    {
+      "name": "Level",
+      "min": -12,
+      "max": 12,
+      "step": 1,
+      "default": 0,
+      "flags": [255, 0, 93]
+    }
+  ]
+}
