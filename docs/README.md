@@ -6,7 +6,8 @@ address). Facts were found by reverse engineering and checked in emulation, and 
 [status page](status.md) says which.
 
 **Start here:** [Getting started](getting-started.md), a step-by-step guide to your first custom firmware with
-the Studio (dual chains, text lists, NAM captures, ported effects), no programming needed.
+the Studio (dual chains, text lists, NAM captures, ported effects), no programming needed
+([em português](getting-started.pt-br.md)).
 
 ## How the firmware works
 

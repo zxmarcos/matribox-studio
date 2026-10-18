@@ -1,5 +1,7 @@
 # Getting started: your first custom firmware
 
+*[Versão em português](getting-started.pt-br.md)*
+
 This guide takes you from a stock Matribox II Pro to a custom firmware with:
 
 - **dual chains**: two parallel effect paths in one preset, drawn on the pedal's screen as two rows;
@@ -86,8 +88,8 @@ factory) and the ones from the libraries (Tutorial, Próprios, Roteamento, and t
   you changed.
 
 The bar at the bottom ("BIBLIOTECA DSP") shows how full the pedal's effect memory is: 2.5 MB in total, most of it
-taken by the factory effects. If part of it turns red, the selection does not fit: untick some effects, for example factory effects you never use
-(the Studio warns if a factory preset uses one). The status on the right says **"Tudo certo"** (all good) when
+taken by the factory effects. If part of it turns red, the selection does not fit: untick some effects, for
+example factory effects you never use (the Studio warns if a factory preset uses one). The status on the right says **"Tudo certo"** (all good) when
 the selection can be built.
 
 **"Salvar perfil"** (save profile) keeps your selection in a file, to reopen it later with "Abrir perfil…" in

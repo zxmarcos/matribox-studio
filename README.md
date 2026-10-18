@@ -29,7 +29,8 @@ generated on your machine.
 ## Matribox Studio for Windows
 
 **New here?** The [step-by-step guide](docs/getting-started.md) goes from the official firmware to a custom one
-with dual chains, text-list knobs and NAM captures, using only the Studio.
+with dual chains, text-list knobs and NAM captures, using only the Studio
+([em português](docs/getting-started.pt-br.md)).
 
 The [releases](https://github.com/zxmarcos/matribox-studio/releases) have a ready-to-run build of the Studio
 (`MatriboxStudio-windows.zip`, made by the `studio-windows` workflow): unzip it, put the official
