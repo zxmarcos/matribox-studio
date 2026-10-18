@@ -3,6 +3,8 @@
 An SDK and a set of tools for the firmware of the **Sonicake Matribox II Pro (QME-200)**, version V1.2.2, built
 by reverse engineering the official firmware image.
 
+![Matribox Studio: a preset with a parallel chain, live on the pedal over USB](docs/images/studio.png)
+
 With it you can:
 
 - write **new effects in C** and add them to the pedal's effect library;
