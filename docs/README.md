@@ -5,6 +5,9 @@ Everything here describes the **Sonicake Matribox II Pro (QME-200), firmware V1.
 address). Facts were found by reverse engineering and checked in emulation, and most of them on the pedal; the
 [status page](status.md) says which.
 
+**Start here:** [Getting started](getting-started.md), a step-by-step guide to your first custom firmware with
+the Studio (dual chains, text lists, NAM captures, ported effects), no programming needed.
+
 ## How the firmware works
 
 1. [Hardware and firmware image](firmware/overview.md): the board, the memory map, the `FRMW` file and its four

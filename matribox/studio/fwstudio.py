@@ -3001,7 +3001,7 @@ class BuildDialog(Dialog):
         'factory': 'Os 10 slots rodam o Clone de fábrica; um slot com captura NAM fica mudo.',
         'nam': 'Os 10 slots rodam o NAM A2; um slot com captura de fábrica passa o sinal seco.',
         'dual': 'Cada slot roda o motor da captura que guarda: NAM A2 para as gravadas pela aba Capturas NAM, '
-                'fábrica para as outras. Ainda não testado no pedal.',
+                'fábrica para as outras.',
         '?': 'O menu Clone da base não é nenhum dos conhecidos; ele fica como está.'}
 
     def _set_clone(self, label):

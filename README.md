@@ -28,6 +28,9 @@ generated on your machine.
 
 ## Matribox Studio for Windows
 
+**New here?** The [step-by-step guide](docs/getting-started.md) goes from the official firmware to a custom one
+with dual chains, text-list knobs and NAM captures, using only the Studio.
+
 The [releases](https://github.com/zxmarcos/matribox-studio/releases) have a ready-to-run build of the Studio
 (`MatriboxStudio-windows.zip`, made by the `studio-windows` workflow): unzip it, put the official
 `QME-200_FW_USB_V1.2.2.bin` in its `firmware` folder and run `MatriboxStudio.exe`. It includes the example
