@@ -785,18 +785,41 @@ class ScrollFrame(tk.Frame):
     def __init__(self, parent, app, bg):
         super().__init__(parent, bg=bg)
         self.canvas = tk.Canvas(self, bg=bg, highlightthickness=0, bd=0)
-        self.sb = ttk.Scrollbar(self, orient='vertical', command=self.canvas.yview, style='Dark.Vertical.TScrollbar')
+        self.sb = ttk.Scrollbar(self, orient='vertical', command=self._sb_cmd, style='Dark.Vertical.TScrollbar')
         self.inner = tk.Frame(self.canvas, bg=bg)
         self.win = self.canvas.create_window(0, 0, window=self.inner, anchor='nw')
         self.canvas.configure(yscrollcommand=self.sb.set)
         self.canvas.pack(side='left', fill='both', expand=True)
         self.inner.bind('<Configure>', lambda e: self._update())
         self.canvas.bind('<Configure>', lambda e: (self.canvas.itemconfigure(self.win, width=e.width), self._update()))
+        self.hold = None                # scroll offset (px) kept while inner is rebuilt, see keep()
+        self.hold_job = None
+
+    def keep(self, ms=400):
+        """call before rebuilding inner's children: keeps the current scroll offset while the new widgets size
+        themselves (inner passes through smaller heights, which would clamp the view to the top)"""
+        self.hold = self.canvas.canvasy(0) if self.sb.winfo_manager() else 0
+        if self.hold_job is not None:
+            self.after_cancel(self.hold_job)
+        self.hold_job = self.after(ms, self._release)
+
+    def _release(self):
+        self.hold = self.hold_job = None
+        self._update()
+
+    def _sb_cmd(self, *a):
+        self.hold = None                # the user scrolls: stop restoring
+        self.canvas.yview(*a)
 
     def _update(self):
         ih, ch = self.inner.winfo_reqheight(), self.canvas.winfo_height()
         self.canvas.configure(scrollregion=(0, 0, self.canvas.winfo_width(), ih))
         need = ih > ch + 1
+        if self.hold:
+            if ih > 0:
+                self.canvas.yview_moveto(self.hold / ih)
+            if not need:                # a passing size: keep the scrollbar until the hold ends
+                return
         if need and not self.sb.winfo_manager():
             self.sb.pack(side='right', fill='y', before=self.canvas)
         elif not need and self.sb.winfo_manager():
@@ -804,6 +827,7 @@ class ScrollFrame(tk.Frame):
             self.canvas.yview_moveto(0)
 
     def _wheel(self, e):
+        self.hold = None
         if self.inner.winfo_height() > self.canvas.winfo_height():
             self.canvas.yview_scroll(int(-e.delta / 120) * 3, 'units')
 

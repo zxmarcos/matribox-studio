@@ -575,6 +575,8 @@ class PedalView(tk.Frame):
         self.flush_job = None
         self.dragging = False
         self.ctl = {}                   # order -> (value label, bar canvas, colour) on the details panel
+        self.det_key = None             # (preset, slot, effect id) the details panel shows: same key keeps the scroll
+        self.det_sig = None             # _det_sig() of the panel's widgets: same signature updates them in place
         self.listeners = []             # f(kind, result, error): the NAM captures view (namview.py) shares the port
         self.gaps = []                  # (x, y, position in the order array) where a block can be dropped
         self.blocks = []                # (x1, y1, x2, y2, slot id) of the effect blocks (not Split / Merge)
@@ -1848,18 +1850,42 @@ class PedalView(tk.Frame):
         self.cv.configure(cursor='hand2' if self._hit(e) is not None else '')
 
     # ------------------------------------------------------------------ details panel
+    def _det_sig(self):
+        """everything the details panel's widgets depend on except the sliders' values (refreshed in place)"""
+        pr = self.shown
+        if pr is None or self.sel_slot is None or pr.slots[self.sel_slot].empty:
+            return None
+        s = pr.slots[self.sel_slot]
+        ctls = Q.controls(self.db, s) if self.db else []
+        return (pr.index, s.sid, s.menu, s.id, s.on, self.editable(), id(self.db), tuple(self.names[0]),
+                tuple(self.names[1]), tuple(x.sid for x in pr.chain()), tuple(pr.order), self._routing(s),
+                tuple((c['order'], c['param'].get('name'), c['lo'], c['hi'], round(c['value']) if c['options'] else
+                       None) for c in ctls), () if ctls else tuple(s.knobs))
+
     def show_details(self):
         W, T, F, p = self.W, self.W.T, self.F, self.p
         box = self.det.inner
+        pr = self.shown
+        sig = self._det_sig()
+        if sig is not None and sig == self.det_sig:
+            for order in self.ctl:                      # same widgets (e.g. a re-read after a knob edit): no rebuild
+                self._refresh_control(order)
+            return
+        self.det_sig = sig
+        # another re-read of the same block (e.g. after on/off) rebuilds the panel but keeps the scroll position
+        key = None if sig is None else sig[:4]
+        if key is not None and key == self.det_key:
+            self.det.keep()
+        else:
+            self.det.canvas.yview_moveto(0)
+        self.det_key = key
         for w in box.winfo_children():
             w.destroy()
         for w in self.det_foot.winfo_children():
             w.destroy()
         self.det_foot.pack_forget()
-        self.det.canvas.yview_moveto(0)
         bg = T['panel']
         pad = dict(padx=p(20))
-        pr = self.shown
         if pr is not None and (self.sel_slot is None or pr.slots[self.sel_slot].empty):
             self.det.pack_forget()
             self.empty_sub.configure(text='Clique em um bloco da cadeia para %s seus parâmetros.' % (
